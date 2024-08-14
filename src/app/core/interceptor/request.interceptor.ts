@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -6,7 +6,6 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserStateService } from 'src/app/services/general/user-state.service';
 import {TranslationService} from "../services/translation.service";
 
 @Injectable()
@@ -22,15 +21,6 @@ export class RequestInterceptor implements HttpInterceptor {
         'lang': this._TranslationService.defaultLang,
       }
     })
-    if (this.user.isLoggedIn())
-      requestClone = request.clone({
-        setHeaders: {
-          'Authorization': this.user.isLoggedIn() ? 'Bearer ' + this.user?.token : ''
-        }
-      })
-
-
-
     return next.handle(requestClone)
   }
 }
